@@ -14,6 +14,10 @@
   (let [[p0 p1 p2 p3 p4 p5 p6 p7 p8] face]
     [p6 p3 p0 p7 p4 p1 p8 p5 p2]))
 
+(defn rotate-face-ccw [face]
+  (let [[p0 p1 p2 p3 p4 p5 p6 p7 p8] face]
+    [p2 p5 p8 p1 p4 p7 p0 p3 p6]))
+
 
 (defn get-right-col [face]
   [(nth face 2) (nth face 5) (nth face 8)])
@@ -44,3 +48,6 @@
         (assoc :d (set-right-col (:d cube) f-col))
         (assoc :b (set-left-col (:b cube) d-col))
         (assoc :u (set-right-col (:u cube) b-col)))))
+
+(defn r-prime [cube]
+  (-> cube r r r))
