@@ -6,8 +6,16 @@
    :d [:y :y :y :y :y :y :y :y :y]
    :f [:r :r :r :r :r :r :r :r :r]
    :b [:o :o :o :o :o :o :o :o :o]
-   :l [:b :b :b :b :b :b :b :b :b]
-   :r [:g :g :g :g :g :g :g :g :g]})
+   :l [:g :g :g :g :g :g :g :g :g]
+   :r [:b :b :b :b :b :b :b :b :b]})
+
+(defn sample-cube []
+  {:u [:y :w :w :w :w :w :w :w :g]
+   :d [:w :y :g :y :y :y :g :y :b]
+   :f [:r :r :o :r :r :r :r :r :o]
+   :b [:o :o :o :o :o :o :r :o :r]
+   :l [:b :g :g :g :g :g :y :g :b]
+   :r [:y :b :b :b :b :b :w :b :y]})
 
 
 (defn rotate-face-cw [face]
@@ -36,7 +44,6 @@
   (let [[c0 c1 c2] new-col]
     (assoc face 0 c0 3 c1 6 c2)))
 
-
 (defn r [cube]
   (let [u-col (get-right-col (:u cube))
         f-col (get-right-col (:f cube))
@@ -44,10 +51,39 @@
         b-col (get-left-col (:b cube))]
     (-> cube
         (update :r rotate-face-cw)
-        (assoc :f (set-right-col (:f cube) u-col))
-        (assoc :d (set-right-col (:d cube) f-col))
-        (assoc :b (set-left-col (:b cube) d-col))
-        (assoc :u (set-right-col (:u cube) b-col)))))
+        (assoc :f (set-right-col (:f cube) d-col))
+        (assoc :d (set-right-col (:d cube) (reverse b-col)))
+        (assoc :b (set-left-col (:b cube) (reverse u-col)))
+        (assoc :u (set-right-col (:u cube) f-col)))))
 
 (defn r-prime [cube]
-  (-> cube r r r))
+  (let [u-col (get-right-col (:u cube))
+        f-col (get-right-col (:f cube))
+        d-col (get-right-col (:d cube))
+        b-col (get-left-col (:b cube))]
+    (-> cube
+        (update :r rotate-face-ccw)
+        (assoc :f (set-right-col (:f cube) u-col))
+        (assoc :d (set-right-col (:d cube) f-col))
+        (assoc :b (set-left-col (:b cube) (reverse d-col)))
+        (assoc :u (set-right-col (:u cube) (reverse b-col))))))
+
+(defn l [cube])
+
+(defn l-prime [cube])
+
+(defn u [cube])
+
+(defn u-prime [cube])
+
+(defn d [cube])
+
+(defn d-prime [cube])
+
+(defn f [cube])
+
+(defn f-prime [cube])
+
+(defn b [cube])
+
+(defn b-prime [cube])
